@@ -1,0 +1,3 @@
+export const CHANGE_THEME = 'CHANGE_THEME';
+export const CHANGE_MODE = 'CHANGE_MODE';
+export const CHANGE_USE_DEVICE_MODE = 'CHANGE_USE_DEVICE_MODE';
