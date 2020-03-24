@@ -10,13 +10,11 @@ import {
   Headline,
   Subheading,
   Divider,
-  Text,
   TextInput,
   IconButton,
 } from 'react-native-paper';
 import Header from '../Header';
-import {addPlayer} from '../../actions/playerActions';
-import {createGame} from '../../actions/gameActions';
+import {createGame, createPlayer} from '../../actions/gameActions';
 import SkittleButton from './components/SkittleButton';
 
 const Create = props => {
@@ -34,6 +32,9 @@ const Create = props => {
   const [game, setGame] = useState({
     active: true,
     players: [],
+    date: new Date().toLocaleDateString(),
+    winner: '',
+    totalThrows: 0,
   });
 
   const shuffle = a => {
@@ -140,7 +141,7 @@ const Create = props => {
                 icon="plus"
                 size={30}
                 onPress={() => {
-                  player.name.length === 0 ? 1 + 1 : props.addPlayer(player),
+                  player.name.length === 0 ? 1 + 1 : props.createPlayer(player),
                     setPlayer({...player, name: ''});
                 }}
               />
@@ -203,11 +204,11 @@ const Create = props => {
 };
 
 const mapStateToProps = state => ({
-  players: state.players,
-  games: state.games,
+  players: state.data.players,
+  games: state.data.games,
 });
 
 export default connect(mapStateToProps, {
-  addPlayer,
+  createPlayer,
   createGame,
 })(withTheme(Create));
