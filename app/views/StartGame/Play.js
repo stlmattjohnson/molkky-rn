@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import {View} from 'react-native';
-import {withTheme, Button} from 'react-native-paper';
+import {withTheme, Text} from 'react-native-paper';
 import Header from '../Header';
 import SkittleButton from './components/SkittleButton';
 
 const Play = props => {
   const colors = props.theme.colors;
+  const [gameID, setGameID] = useState(props.route.params.game);
+  console.log(gameID);
   return (
     <>
       <Header title="Play Game" />
@@ -32,9 +35,17 @@ const Play = props => {
             <SkittleButton>2</SkittleButton>
           </View>
         </View>
-        <View style={{flex: 1, justifyContent: 'space-evenly'}}></View>
+        <View style={{flex: 1, justifyContent: 'flex-start'}}>
+          <Text>{JSON.stringify(props.games[gameID])}</Text>
+        </View>
       </View>
     </>
   );
 };
-export default withTheme(Play);
+
+const mapStateToProps = state => ({
+  players: state.players,
+  games: state.games,
+});
+
+export default connect(mapStateToProps, null)(withTheme(Play));

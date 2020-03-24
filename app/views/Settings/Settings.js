@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
+import {View, ScrollView, TouchableOpacity} from 'react-native';
 import {
   Text,
   Subheading,
