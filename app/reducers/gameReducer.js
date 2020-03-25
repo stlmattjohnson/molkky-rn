@@ -4,15 +4,13 @@ import {
   RECORD_SCORE,
   GAME_WON,
 } from '../actions/types';
-import {create} from 'react-test-renderer';
 
 const initialState = {games: [], players: []};
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case CREATE_PLAYER:
-      state.players.push(action.payload);
-      return state;
+      return {...state, players: [...state.players, action.payload]};
 
     case CREATE_GAME:
       let game = action.payload;
@@ -25,13 +23,15 @@ export default function(state = initialState, action) {
         }),
       };
 
-      createState.games.push(game);
-
       for (let p of game.players) {
         createState.players[p.player].totalGames++;
       }
 
-      return state;
+      return {
+        ...state,
+        games: [...state.games, game],
+        players: [...createState.players],
+      };
 
     case RECORD_SCORE:
       let gameIndex = action.payload.game;
@@ -69,7 +69,11 @@ export default function(state = initialState, action) {
 
       newState.games[gameIndex].totalThrows++;
 
-      return state;
+      return {
+        ...state,
+        games: [...newState.games],
+        players: [...newState.players],
+      };
 
     case GAME_WON:
       let finishedGameIndex = action.payload.game;
@@ -79,14 +83,14 @@ export default function(state = initialState, action) {
 
       winState.games[finishedGameIndex].active = false;
       winState.games[finishedGameIndex].winner =
-        winState.players[
-          winState.games[finishedGameIndex].players[winningPlayerIndex].player
-        ].name;
-      winState.players[
-        winState.games[finishedGameIndex].players[winningPlayerIndex].player
-      ].totalWins++;
+        winState.players[winningPlayerIndex].name;
+      winState.players[winningPlayerIndex].totalWins++;
 
-      return state;
+      return {
+        ...state,
+        games: [...winState.games],
+        players: [...winState.players],
+      };
 
     default:
       return state;

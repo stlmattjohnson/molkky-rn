@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import {withTheme, DataTable} from 'react-native-paper';
 import Header from '../Header';
 
@@ -33,7 +33,7 @@ const PlayerHistory = props => {
             <DataTable.Title numeric>Misses</DataTable.Title>
             <DataTable.Title numeric>Points</DataTable.Title>
           </DataTable.Header>
-          {playerTableData}
+          <ScrollView>{playerTableData}</ScrollView>
         </DataTable>
       </View>
     </>

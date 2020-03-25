@@ -172,6 +172,7 @@ const Create = props => {
             marginHorizontal: 32,
             maxHeight: '50%',
             minHeight: '50%',
+            borderRadius: 8,
           }}>
           <Headline style={{textAlign: 'center', marginBottom: 16}}>
             Who's Playing
@@ -191,7 +192,7 @@ const Create = props => {
                 props.createGame(game),
                   setVisible(false),
                   props.navigation.navigate('Play', {
-                    game: props.games.length - 1,
+                    game: props.games.length,
                   });
               }}>
               Let's Play!

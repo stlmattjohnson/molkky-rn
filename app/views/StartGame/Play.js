@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
 import {
@@ -19,7 +20,6 @@ const Play = props => {
   const [gameID, setGameID] = useState(props.route.params.game);
   const [activePlayer, setActivePlayer] = useState(0);
   const [skittles, setSkittles] = useState('');
-  const [winner, setWinner] = useState('');
 
   const [scoreArray, setScoreArray] = useState([]);
 
@@ -56,7 +56,11 @@ const Play = props => {
     }
   };
 
-  useEffect(() => {
+  useFocusEffect(() => {
+    setGameID(props.route.params.game);
+  }, [props.route.params.game]);
+
+  useFocusEffect(() => {
     const winningScore = props.games[gameID].players.filter(player => {
       return player.currentPoints === 50;
     });
@@ -73,15 +77,6 @@ const Play = props => {
       }
       if (winningScore.length === 1) {
         props.gameWon(gameID, winningScore[0].player);
-      }
-    }
-
-    if (!props.games[gameID].active) {
-      if (lastPlayer.length === 1) {
-        setWinner(props.players[lastPlayer[0].player].name);
-      }
-      if (winningScore.length === 1) {
-        setWinner(props.players[winningScore[0].player].name);
       }
     }
   }, [activePlayer]);
@@ -243,7 +238,7 @@ const Play = props => {
                 alignItems: 'center',
                 paddingBottom: 16,
               }}>
-              <Headline>{winner} won!</Headline>
+              <Headline>{props.games[gameID].winner} won!</Headline>
             </View>
           )}
           <Divider />
