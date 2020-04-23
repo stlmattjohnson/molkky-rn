@@ -3,12 +3,16 @@ import {
   CREATE_GAME,
   RECORD_SCORE,
   GAME_WON,
+  RESET_DATA,
 } from '../actions/types';
 
 const initialState = {games: [], players: []};
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case RESET_DATA:
+      return {games: [], players: []};
+
     case CREATE_PLAYER:
       return {...state, players: [...state.players, action.payload]};
 

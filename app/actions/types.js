@@ -9,3 +9,5 @@ export const CREATE_GAME = 'CREATE_GAME';
 export const RECORD_SCORE = 'RECORD_SCORE';
 
 export const GAME_WON = 'GAME_WON';
+
+export const RESET_DATA = 'RESET_DATA';

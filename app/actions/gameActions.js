@@ -1,4 +1,10 @@
-import {CREATE_PLAYER, CREATE_GAME, RECORD_SCORE, GAME_WON} from './types';
+import {
+  CREATE_PLAYER,
+  CREATE_GAME,
+  RECORD_SCORE,
+  GAME_WON,
+  RESET_DATA,
+} from './types';
 
 export const createPlayer = player => dispatch => {
   dispatch({type: CREATE_PLAYER, payload: player});
@@ -14,4 +20,8 @@ export const recordScore = (game, player, score) => dispatch => {
 
 export const gameWon = (game, player) => dispatch => {
   dispatch({type: GAME_WON, payload: {game, player}});
+};
+
+export const resetData = () => dispatch => {
+  dispatch({type: RESET_DATA, payload: undefined});
 };

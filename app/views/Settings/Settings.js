@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {View, ScrollView, TouchableOpacity, SafeAreaView} from 'react-native';
 import {
   Text,
   Subheading,
@@ -7,6 +7,8 @@ import {
   Switch,
   Divider,
   RadioButton,
+  IconButton,
+  Button,
   withTheme,
 } from 'react-native-paper';
 import {connect} from 'react-redux';
@@ -16,6 +18,7 @@ import {
   changeTheme,
   changeDeviceMode,
 } from '../../actions/settingActions';
+import {resetData} from '../../actions/gameActions';
 import Header from '../Header';
 import {theme} from '../../constants';
 import {useDarkMode} from 'react-native-dark-mode';
@@ -25,6 +28,13 @@ const Settings = props => {
 
   const isDark = useDarkMode();
   const mode = props.useDeviceMode ? (isDark ? 1 : 0) : props.darkMode ? 1 : 0;
+
+  const [isResetDataPressed, setIsResetDataPressed] = useState(false);
+
+  const resetData = () => {
+    setIsResetDataPressed(false);
+    props.resetData();
+  };
 
   const themeSelect = theme.map((theme, index) => {
     return (
@@ -65,7 +75,8 @@ const Settings = props => {
   return (
     <>
       <Header title="Settings" />
-      <View style={{flex: 1, padding: 16, backgroundColor: colors.background}}>
+      <SafeAreaView
+        style={{flex: 1, padding: 16, backgroundColor: colors.background}}>
         <ScrollView style={{flex: 1, paddingHorizontal: 10}}>
           <View style={{marginVertical: 10}}>
             <Headline>Display Settings</Headline>
@@ -136,8 +147,55 @@ const Settings = props => {
             </RadioButton.Group>
           </View>
           <Divider />
+          <View style={{marginVertical: 10}}>
+            <Headline>Game Data</Headline>
+          </View>
+          <Divider />
+          {!isResetDataPressed ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginVertical: 10,
+              }}>
+              <Button
+                style={{width: '45%'}}
+                mode="contained"
+                color={colors.error}
+                uppercase={false}
+                onPress={() => setIsResetDataPressed(true)}>
+                Reset Game Data
+              </Button>
+            </View>
+          ) : (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginVertical: 10,
+              }}>
+              <Button
+                style={{width: '45%'}}
+                mode="contained"
+                color={colors.error}
+                uppercase={false}
+                onPress={() => setIsResetDataPressed(false)}>
+                Cancel
+              </Button>
+              <Button
+                style={{width: '45%'}}
+                mode="contained"
+                color={colors.primary}
+                uppercase={false}
+                onPress={() => resetData()}>
+                Confirm
+              </Button>
+            </View>
+          )}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -148,8 +206,12 @@ const mapStateToProps = state => ({
   activeTheme: state.setting.theme,
 });
 
-export default connect(mapStateToProps, {
-  changeMode,
-  changeTheme,
-  changeDeviceMode,
-})(withTheme(Settings));
+export default connect(
+  mapStateToProps,
+  {
+    changeMode,
+    changeTheme,
+    changeDeviceMode,
+    resetData,
+  },
+)(withTheme(Settings));
