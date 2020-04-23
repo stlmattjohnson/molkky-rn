@@ -160,8 +160,6 @@ const Settings = props => {
                 marginVertical: 10,
               }}>
               <Button
-                style={{width: '45%'}}
-                mode="contained"
                 color={colors.error}
                 uppercase={false}
                 onPress={() => setIsResetDataPressed(true)}>
@@ -178,7 +176,6 @@ const Settings = props => {
               }}>
               <Button
                 style={{width: '45%'}}
-                mode="contained"
                 color={colors.error}
                 uppercase={false}
                 onPress={() => setIsResetDataPressed(false)}>
@@ -186,7 +183,6 @@ const Settings = props => {
               </Button>
               <Button
                 style={{width: '45%'}}
-                mode="contained"
                 color={colors.primary}
                 uppercase={false}
                 onPress={() => resetData()}>

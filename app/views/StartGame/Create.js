@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {View, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import {
   withTheme,
   Modal,
@@ -100,54 +106,65 @@ const Create = props => {
     <>
       <Header title="Create Game" />
       <View style={{flex: 1, padding: 16, backgroundColor: colors.background}}>
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <SkittleButton>7</SkittleButton>
-            <SkittleButton>9</SkittleButton>
-            <SkittleButton>8</SkittleButton>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <SkittleButton>5</SkittleButton>
-            <SkittleButton>11</SkittleButton>
-            <SkittleButton>12</SkittleButton>
-            <SkittleButton>6</SkittleButton>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <SkittleButton>3</SkittleButton>
-            <SkittleButton>10</SkittleButton>
-            <SkittleButton>4</SkittleButton>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <SkittleButton>1</SkittleButton>
-            <SkittleButton>2</SkittleButton>
-          </View>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'column',
-          }}>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <View style={{flex: 8}}>
-              <TextInput
-                dense={true}
-                label="New Player"
-                value={player.name}
-                onChangeText={text => setPlayer({...player, name: text})}
-              />
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+          style={{flex: 1, justifyContent: 'space-between'}}>
+          <View>
+            <View style={{flexDirection: 'column', marginBottom: 24}}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <SkittleButton>7</SkittleButton>
+                <SkittleButton>9</SkittleButton>
+                <SkittleButton>8</SkittleButton>
+              </View>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <SkittleButton>5</SkittleButton>
+                <SkittleButton>11</SkittleButton>
+                <SkittleButton>12</SkittleButton>
+                <SkittleButton>6</SkittleButton>
+              </View>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <SkittleButton>3</SkittleButton>
+                <SkittleButton>10</SkittleButton>
+                <SkittleButton>4</SkittleButton>
+              </View>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <SkittleButton>1</SkittleButton>
+                <SkittleButton>2</SkittleButton>
+              </View>
             </View>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <IconButton
-                icon="plus"
-                size={30}
-                onPress={() => {
-                  player.name.length === 0 ? 1 + 1 : props.createPlayer(player),
-                    setPlayer({...player, name: ''});
-                }}
-              />
+
+            <View
+              style={{
+                flexDirection: 'column',
+              }}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <View style={{flex: 8}}>
+                  <TextInput
+                    dense={true}
+                    label="New Player"
+                    value={player.name}
+                    onChangeText={text => setPlayer({...player, name: text})}
+                  />
+                </View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <IconButton
+                    icon="plus"
+                    size={30}
+                    color={colors.primary}
+                    onPress={() => {
+                      player.name.length === 0
+                        ? 1 + 1
+                        : props.createPlayer(player),
+                        setPlayer({...player, name: ''});
+                    }}
+                  />
+                </View>
+              </View>
+
+              <ScrollView>{playerList}</ScrollView>
             </View>
           </View>
-          <ScrollView>{playerList}</ScrollView>
           <View>
             <Button
               onPress={() => {
@@ -160,7 +177,7 @@ const Create = props => {
                   }`}
             </Button>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </View>
       <Portal>
         <Modal

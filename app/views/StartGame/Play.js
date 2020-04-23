@@ -222,6 +222,7 @@ const Play = props => {
               </Text>
               <IconButton
                 icon="check"
+                color={colors.primary}
                 size={30}
                 onPress={() => {
                   props.recordScore(gameID, activePlayer, parseInt(score));
