@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {theme} from './constants';
 import {useDarkMode} from 'react-native-dark-mode';
+import ErrorBoundary from './views/ErrorBoundary';
 
 import MainApp from './MainApp';
 
@@ -15,7 +16,9 @@ const ThemeApp = props => {
   return (
     <NavigationContainer>
       <PaperProvider theme={theme[props.activeTheme][mode]}>
-        <MainApp />
+        <ErrorBoundary>
+          <MainApp />
+        </ErrorBoundary>
       </PaperProvider>
     </NavigationContainer>
   );
@@ -27,4 +30,7 @@ const mapStateToProps = state => ({
   activeTheme: state.setting.theme,
 });
 
-export default connect(mapStateToProps, null)(ThemeApp);
+export default connect(
+  mapStateToProps,
+  null,
+)(ThemeApp);

@@ -31,7 +31,7 @@ const GameHistory = props => {
 
   return (
     <>
-      <Header title="Player History" />
+      <Header title="Game History" />
       <View style={{flex: 1, padding: 16, backgroundColor: colors.background}}>
         <DataTable>
           <DataTable.Header>
@@ -52,4 +52,7 @@ const mapStateToProps = state => ({
   players: state.data.players,
 });
 
-export default connect(mapStateToProps, null)(withTheme(GameHistory));
+export default connect(
+  mapStateToProps,
+  null,
+)(withTheme(GameHistory));

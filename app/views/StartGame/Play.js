@@ -7,6 +7,7 @@ import {
   Text,
   Divider,
   Headline,
+  Button,
   IconButton,
   DataTable,
 } from 'react-native-paper';
@@ -231,14 +232,21 @@ const Play = props => {
               />
             </View>
           ) : (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                paddingBottom: 16,
-              }}>
-              <Headline>{props.games[gameID].winner} won!</Headline>
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                  paddingBottom: 16,
+                }}>
+                <Headline>{props.games[gameID].winner} won!</Headline>
+              </View>
+              <Button
+                style={{marginBottom: 16}}
+                onPress={() => props.navigation.goBack()}>
+                Play Again
+              </Button>
             </View>
           )}
           <Divider />
@@ -261,6 +269,7 @@ const mapStateToProps = state => ({
   games: state.data.games,
 });
 
-export default connect(mapStateToProps, {recordScore, gameWon})(
-  withTheme(Play),
-);
+export default connect(
+  mapStateToProps,
+  {recordScore, gameWon},
+)(withTheme(Play));

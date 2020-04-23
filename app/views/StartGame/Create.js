@@ -79,7 +79,7 @@ const Create = props => {
                 : setGame({...game, players: [...game.players, index]});
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Checkbox status={status} />
+              <Checkbox status={status} color={colors.primary} />
               <Subheading>{player.name}</Subheading>
             </View>
           </TouchableOpacity>
@@ -209,7 +209,10 @@ const mapStateToProps = state => ({
   games: state.data.games,
 });
 
-export default connect(mapStateToProps, {
-  createPlayer,
-  createGame,
-})(withTheme(Create));
+export default connect(
+  mapStateToProps,
+  {
+    createPlayer,
+    createGame,
+  },
+)(withTheme(Create));
