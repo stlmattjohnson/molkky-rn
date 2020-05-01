@@ -7,6 +7,7 @@ import {
   Text,
   Divider,
   Headline,
+  Modal,
   Button,
   IconButton,
   DataTable,
@@ -21,6 +22,8 @@ const Play = props => {
   const [gameID, setGameID] = useState(props.route.params.game);
   const [activePlayer, setActivePlayer] = useState(0);
   const [skittles, setSkittles] = useState('');
+
+  const [scoreConfirmVisible, setScoreConfirmVisible] = useState(false);
 
   const [scoreArray, setScoreArray] = useState([]);
 
@@ -203,7 +206,8 @@ const Play = props => {
                 flexDirection: 'row',
                 justifyContent: 'space-evenly',
                 alignItems: 'center',
-                paddingBottom: 16,
+                marginHorizontal: -16,
+                backgroundColor: colors.surface,
               }}>
               <Headline>
                 {
@@ -223,13 +227,8 @@ const Play = props => {
               <IconButton
                 icon="check"
                 color={colors.primary}
-                size={30}
-                onPress={() => {
-                  props.recordScore(gameID, activePlayer, parseInt(score));
-                  checkPlayer(activePlayer),
-                    setScoreArray([]),
-                    setSkittles('reset');
-                }}
+                size={60}
+                onPress={() => setScoreConfirmVisible(true)}
               />
             </View>
           ) : (
@@ -261,6 +260,51 @@ const Play = props => {
           </DataTable>
         </View>
       </View>
+      <Modal
+        visible={scoreConfirmVisible}
+        onDismiss={() => setScoreConfirmVisible(false)}
+        contentContainerStyle={{
+          backgroundColor: colors.background,
+          padding: 16,
+          marginHorizontal: 32,
+          borderRadius: 8,
+        }}>
+        <Text
+          style={{
+            fontSize: 40,
+            color: score === '0' ? colors.error : colors.primary,
+            textAlign: 'center',
+          }}>
+          {props.players[props.games[gameID].players[activePlayer].player].name}{' '}
+          scored {score}!
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            marginTop: 16,
+          }}>
+          <Button
+            color={colors.error}
+            uppercase={false}
+            icon="close"
+            onPress={() => setScoreConfirmVisible(false)}>
+            Cancel
+          </Button>
+          <Button
+            icon="check"
+            uppercase={false}
+            onPress={() => {
+              setScoreConfirmVisible(false);
+              props.recordScore(gameID, activePlayer, parseInt(score));
+              checkPlayer(activePlayer),
+                setScoreArray([]),
+                setSkittles('reset');
+            }}>
+            MARK IT!
+          </Button>
+        </View>
+      </Modal>
     </>
   );
 };
